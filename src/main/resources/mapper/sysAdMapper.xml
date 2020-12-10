@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.springboot_scan_bxy.mapper.SysAdMapper">
+	<resultMap id="sysAdMap" type="com.itheima.springboot_scan_bxy.entity.Sys_Ad">
+		<result column="id" property="id" jdbcType="INTEGER"/>
+		<result column="ad_group" property="adGroup" jdbcType="VARCHAR"/>
+		<result column="ad_image" property="adImage" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+	</resultMap>
+	<select id="select"  resultMap="sysAdMap">
+   		select id,
+            ad_group,
+            ad_image,
+            DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') create_time,
+            DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') update_time
+        from sys_ad
+ 	</select>
+</mapper>
