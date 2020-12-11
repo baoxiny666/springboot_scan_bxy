@@ -1,6 +1,8 @@
 
 server :
   port :  8199
+  tomcat:
+    uri-encoding: UTF-8
 
 spring:
   datasource:
@@ -16,6 +18,8 @@ spring:
       password: r_lhtg007!!
       driver-class-name: com.mysql.jdbc.Driver
       type: com.alibaba.druid.pool.DruidDataSource
+
+
 
 
 mybatis:
