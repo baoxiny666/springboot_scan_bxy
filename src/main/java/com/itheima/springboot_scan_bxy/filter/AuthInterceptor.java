@@ -2,26 +2,34 @@ package com.itheima.springboot_scan_bxy.filter;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
+import com.itheima.springboot_scan_bxy.annotation.JwtToken;
+import com.itheima.springboot_scan_bxy.utils.JwtUtil;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+        response.setContentType("text/html;charset=utf-8");
         System.out.println(">>>AuthInterceptor>>>>>>>在请求处理之前进行调用（Controller方法调用之前)");
-
+        /*数字签名*/
         String sign = request.getHeader("sign");
         String timeStamp = request.getHeader("timeStamp");
+        String token = request.getHeader("token");
         String config_key = "__SIGN__ABA0320";
         sign = "c4345b2f090563c6f0a5f8b2478dfc50";
         timeStamp="1607652390471";
+        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTk0NiIsImV4cCI6MTYwNzY3MzcwN30.ilbpqoMamiNR8guEiKW-8dETO4xLcC4JAg9x0mMxhoQ";
+
+        /*关于 JWT 内容*/
 
 
         PrintWriter out = null;
@@ -32,6 +40,9 @@ public class AuthInterceptor implements HandlerInterceptor {
                 res.put("errorCode", "403");
                 out = response.getWriter();
                 out.append(res.toString());
+                response.reset();
+                out.flush();
+                out.close();
                 return false;
             } catch (Exception e) {
                 JSONObject res = new JSONObject();
@@ -39,22 +50,76 @@ public class AuthInterceptor implements HandlerInterceptor {
                 res.put("errorCode", "500");
                 out = response.getWriter();
                 out.append(res.toString());
-                e.printStackTrace();
+                response.reset();
+                out.flush();
+                out.close();
                 return false;
+
+
             }
         }else{
             String md5Secret = encryption(encryption(config_key+timeStamp).substring(0,10));
             if(sign.equals(md5Secret)){
-                return true;
+
+                // 如果不是映射到方法直接通过
+                if(!(handler instanceof HandlerMethod)){
+                    return true;
+                }
+                HandlerMethod handlerMethod=(HandlerMethod)handler;
+                Method method=handlerMethod.getMethod();
+                //检查有没有需要用户权限的注解
+                if (method.isAnnotationPresent(JwtToken.class)) {
+                    JwtToken jwtToken = method.getAnnotation(JwtToken.class);
+                    if (jwtToken.required()) {
+                        // 执行认证
+                        if (token == null) {
+                            JSONObject res = new JSONObject();
+                            res.put("isSuccess", false);
+                            res.put("errorCode", "没有token登录去吧");
+                            out = response.getWriter();
+                            out.append(res.toString());
+                            response.reset();
+                            out.flush();
+                            out.close();
+
+                            return false;
+                        }
+                        // 获取 token 中的 userId
+                        String userId = JwtUtil.getUserId(token);
+                        System.out.println("用户id:" + userId);
+                        // 验证 token
+                        Boolean panduan = JwtUtil.checkSign(token,response);
+                        if(panduan == false){
+                            JSONObject res = new JSONObject();
+                            res.put("isSuccess", false);
+                            res.put("errorCode", "token不对");
+                            out = response.getWriter();
+                            out.append(res.toString());
+                            response.reset();
+                            out.flush();
+                            out.close();
+                        }
+                    }
+                }
             }else{
                 JSONObject res = new JSONObject();
                 res.put("isSuccess", false);
                 res.put("errorCode", "403");
                 out = response.getWriter();
                 out.append(res.toString());
+                response.reset();
+                out.flush();
+                out.close();
                 return false;
             }
         }
+        return true;
+    }
+
+    public static void  jwtMethods(String token){
+        PrintWriter out = null;
+        Object object = null;
+
     }
 
     /*
