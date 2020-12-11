@@ -70,7 +70,7 @@ public class JwtUtil {
         } catch (JWTVerificationException exception) {
             flag = 1;
 
-            exception.printStackTrace();
+
         }finally {
             if(flag == 1){
                 return false;

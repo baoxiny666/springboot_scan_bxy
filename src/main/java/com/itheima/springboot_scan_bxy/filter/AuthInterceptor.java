@@ -27,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String config_key = "__SIGN__ABA0320";
         sign = "c4345b2f090563c6f0a5f8b2478dfc50";
         timeStamp="1607652390471";
-        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTk0NiIsImV4cCI6MTYwNzY3MzcwN30.ilbpqoMamiNR8guEiKW-8dETO4xLcC4JAg9x0mMxhoQ";
+        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTk0NiJ9.Ir8CQy1U4n8p4gEOfBSQNNVaFQzplHGWWM5xOWaOZa4";
 
         /*关于 JWT 内容*/
 
@@ -40,9 +40,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 res.put("errorCode", "403");
                 out = response.getWriter();
                 out.append(res.toString());
-                response.reset();
-                out.flush();
-                out.close();
+
                 return false;
             } catch (Exception e) {
                 JSONObject res = new JSONObject();
@@ -50,9 +48,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 res.put("errorCode", "500");
                 out = response.getWriter();
                 out.append(res.toString());
-                response.reset();
-                out.flush();
-                out.close();
+
                 return false;
 
 
@@ -75,12 +71,9 @@ public class AuthInterceptor implements HandlerInterceptor {
                         if (token == null) {
                             JSONObject res = new JSONObject();
                             res.put("isSuccess", false);
-                            res.put("errorCode", "没有token登录去吧");
+                            res.put("errorCode", 407);
                             out = response.getWriter();
                             out.append(res.toString());
-                            response.reset();
-                            out.flush();
-                            out.close();
 
                             return false;
                         }
@@ -92,24 +85,21 @@ public class AuthInterceptor implements HandlerInterceptor {
                         if(panduan == false){
                             JSONObject res = new JSONObject();
                             res.put("isSuccess", false);
-                            res.put("errorCode", "token不对");
+                            res.put("errorCode", 407);
                             out = response.getWriter();
-                            out.append(res.toString());
-                            response.reset();
-                            out.flush();
-                            out.close();
+                            out.append(res.toJSONString());
+
+                            return false;
                         }
                     }
                 }
             }else{
                 JSONObject res = new JSONObject();
                 res.put("isSuccess", false);
-                res.put("errorCode", "403");
+                res.put("errorCode", 403);
                 out = response.getWriter();
                 out.append(res.toString());
                 response.reset();
-                out.flush();
-                out.close();
                 return false;
             }
         }
