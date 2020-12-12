@@ -4,6 +4,8 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.itheima.springboot_scan_bxy.annotation.JwtToken;
 import com.itheima.springboot_scan_bxy.utils.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,9 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setContentType("text/html;charset=utf-8");
@@ -27,8 +32,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String config_key = "__SIGN__ABA0320";
         sign = "c4345b2f090563c6f0a5f8b2478dfc50";
         timeStamp="1607652390471";
+        //token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTk0NiJ9.Ir8CQy1U4n8p4gEOfBSQNNVaFQzplHGWWM5xOWaOZa4";
         token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTk0NiJ9.Ir8CQy1U4n8p4gEOfBSQNNVaFQzplHGWWM5xOWaOZa4";
-
         /*关于 JWT 内容*/
 
 
@@ -37,7 +42,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             try {
                 JSONObject res = new JSONObject();
                 res.put("isSuccess", false);
-                res.put("errorCode", "403");
+                res.put("errorCode", 403);
                 out = response.getWriter();
                 out.append(res.toString());
 
@@ -45,7 +50,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             } catch (Exception e) {
                 JSONObject res = new JSONObject();
                 res.put("isSuccess", false);
-                res.put("errorCode", "500");
+                res.put("errorCode", 500);
                 out = response.getWriter();
                 out.append(res.toString());
 
@@ -74,23 +79,35 @@ public class AuthInterceptor implements HandlerInterceptor {
                             res.put("errorCode", 407);
                             out = response.getWriter();
                             out.append(res.toString());
-
                             return false;
-                        }
-                        // 获取 token 中的 userId
-                        String userId = JwtUtil.getUserId(token);
-                        System.out.println("用户id:" + userId);
-                        // 验证 token
-                        Boolean panduan = JwtUtil.checkSign(token,response);
-                        if(panduan == false){
-                            JSONObject res = new JSONObject();
-                            res.put("isSuccess", false);
-                            res.put("errorCode", 407);
-                            out = response.getWriter();
-                            out.append(res.toJSONString());
+                        }else{
+                            String userId = JwtUtil.getUserId(token)==null?"":JwtUtil.getUserId(token);
+                            String isRedisUserId = redisTemplate.opsForValue().get(userId) == null?null:redisTemplate.opsForValue().get(userId).toString();
+                            if(isRedisUserId != null){
+                                // 验证 token
+                                Boolean panduan = JwtUtil.checkSign(isRedisUserId,response);
+                                if(panduan == false){
+                                    JSONObject res = new JSONObject();
+                                    res.put("isSuccess", false);
+                                    res.put("errorCode", 407);
+                                    out = response.getWriter();
+                                    out.append(res.toJSONString());
+                                    return false;
+                                }else{
+                                    redisTemplate.expire(userId, 30, TimeUnit.SECONDS);
+                                }
+                            }else{
+                                JSONObject res = new JSONObject();
+                                res.put("isSuccess", false);
+                                res.put("errorCode", 407);
+                                out = response.getWriter();
+                                out.append(res.toJSONString());
 
-                            return false;
+                                return false;
+                            }
                         }
+
+
                     }
                 }
             }else{
