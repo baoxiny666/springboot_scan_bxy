@@ -143,6 +143,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
+        <!--关于codeC ASE加密-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -159,15 +172,7 @@
 
     <build>
 
-    <resources>
-        <resource>
-            <directory>src/main/java</directory><!--所在的目录-->
-            <includes><!--包括目录下的.properties,.xml文件都会扫描到-->
-                <include>**/*.xml</include>
-            </includes>
-            <filtering>false</filtering>
-        </resource>
-        </resources>
+
 
         <plugins>
             <plugin>

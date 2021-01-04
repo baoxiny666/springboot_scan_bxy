@@ -5,19 +5,19 @@ import lombok.Data;
 @Data
 public class User {
     private Integer id;
-    private String userNo;
     private String userName;
     private String passWord;
+    private String name;
 
     private DepartMent departMent;
     private Sys_Post sysPost;
 
     private String userPhone;
-    private Integer jobId;
+    private String postId;
     private String userPhoto;
     private String createTime;
     private String updateTime;
-    private String longTime;
+    private String loginTime;
     private Integer userStatus;
 
 }

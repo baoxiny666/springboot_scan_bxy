@@ -4,28 +4,19 @@
 <mapper namespace="com.itheima.springboot_scan_bxy.mapper.LoginMapper">
 
 	<select id="loginCheck" parameterType="com.itheima.springboot_scan_bxy.entity.User"  resultType="java.util.Map">
-   		select suser.user_no,
-   			   suser.user_name,
-   			   suser.password,
-   			   suser.depart_id depart_no,
-   			   suser.user_phone,
-   			   suser.post_id,
-   			   suser.user_photo,
-   			   DATE_FORMAT(suser.create_time,'%Y-%m-%d %H:%i:%s') suercreate_time,
-               DATE_FORMAT(suser.update_time,'%Y-%m-%d %H:%i:%s') suserupdate_time,
-               DATE_FORMAT(suser.login_time,'%Y-%m-%d %H:%i:%s') suserlogin_time,
-               suser.user_status,
-               sdepart.depart_name,
-               sdepart.depart_parent_no,
-               spost.post_no,
-               spost.post_name,
-               spost.post_level
-   		from sys_users suser
-   				 join sys_department sdepart
-   				 	on suser.depart_id = sdepart.depart_no
-   				 join sys_post spost
-   				 	on suser.post_id = spost.post_no
-   		where
-   			suser.user_no= #{userNo} and suser.password= #{passWord}
+   		select
+   			   abmuser.user_name,
+   			   abmuser.user_pwd,
+   			   abmuser.user_phone,
+   			   abmuser.post_id,
+   			   abmuser.user_photo,
+   			   DATE_FORMAT(abmuser.create_time,'%Y-%m-%d %H:%i:%s') create_time,
+               DATE_FORMAT(abmuser.update_time,'%Y-%m-%d %H:%i:%s') update_time,
+               DATE_FORMAT(abmuser.login_time,'%Y-%m-%d %H:%i:%s') login_time,
+               abmuser.user_status
+   		from admin_back_manage_user abmuser
+   		where abmuser.user_name= #{userName}
+   				and abmuser.user_pwd= #{passWord}
+
  	</select>
 </mapper>

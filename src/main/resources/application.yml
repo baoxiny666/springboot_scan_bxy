@@ -34,6 +34,8 @@ spring:
 
 
 mybatis:
+  mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: com.itheima.springboot_scan_bxy.mapper
   configLocation:
     classpath: mybatis-config.xml
+
