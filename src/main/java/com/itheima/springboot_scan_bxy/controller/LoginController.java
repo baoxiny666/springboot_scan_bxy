@@ -27,7 +27,7 @@ public class LoginController {
     @RequestMapping("/login")
     public String login( String aesData){
         JSONObject jsonObject=new JSONObject();
-        // 检验用户是否存在(为了简单，这里假设用户存在，并制造一个uuid假设为用户id)
+
         String aesDeData = AesUtil.decrypt(aesData,AesUtil.KEY);
         JSONObject aesDeDateObj=JSONObject.parseObject(aesDeData);
         String userName  = aesDeDateObj.get("userName").toString();
@@ -38,30 +38,39 @@ public class LoginController {
         user.setUserName(userName);
         user.setPassWord(md5.encrypt32(passWord));
         Map checkUserMap = loginService.loginCheck(user);
+
+        String lhtg_redis_flag = "back:manage:";
         //检查用户名 密码
         if(checkUserMap != null){
-            String passwordCx = checkUserMap.get("password").toString();
+            String passwordCx = checkUserMap.get("user_pwd").toString();
+            String userId = checkUserMap.get("id").toString();
+            //拼接jwt秘钥
+            String totalSecret =  lhtg_redis_flag+""+userId;
             String passswordSr = md5.encrypt32(passWord);
+
             if(passswordSr.equals(passwordCx)) {
-                String token= JwtUtil.sign(userName);
-                redisTemplate.opsForValue().set(userName,token);
+                String token= JwtUtil.sign(totalSecret);
+                redisTemplate.opsForValue().set(totalSecret,token);
                 //设置token有效的时间
-                redisTemplate.expire(userName, 30, TimeUnit.SECONDS);
+                redisTemplate.expire(totalSecret, 300, TimeUnit.SECONDS);
 
                 JSONObject obj = new JSONObject();
-                obj.put("token",token);
+                JSONObject obj_inner = new JSONObject();
+                obj_inner.put("token",token);
+                obj.put("code",200);
+                obj.put("content",obj_inner);
                 obj.put("isSuccess",true);
                 return JSON.toJSONString(obj);
             }else {
                 JSONObject obj = new JSONObject();
                 obj.put("isSuccess", false);
-                obj.put("errorCode",407);
+                obj.put("code",407);
                 return obj.toJSONString();
             }
         }else{
             JSONObject obj = new JSONObject();
             obj.put("isSuccess", false);
-            obj.put("errorCode",407);
+            obj.put("code",407);
             return obj.toJSONString();
         }
 

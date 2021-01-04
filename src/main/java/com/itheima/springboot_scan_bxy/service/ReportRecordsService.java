@@ -1,6 +1,6 @@
 package com.itheima.springboot_scan_bxy.service;
 
 
-public interface FileListService {
+public interface ReportRecordsService {
     String select();
 }

@@ -1,21 +1,22 @@
 package com.itheima.springboot_scan_bxy.controller;
 
-import com.itheima.springboot_scan_bxy.service.LocationService;
+
+import com.itheima.springboot_scan_bxy.service.ReportRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/location")
-public class LocationController {
+@RequestMapping("/report")
+public class ReportRecordsController {
     @Autowired
-    private LocationService locationService;
+    private ReportRecordsService reportRecordsService;
 
     @RequestMapping("/select")
-    public String  select(@RequestBody String location_data){
-        String location_content  = locationService.select(location_data);
-        return location_content;
+    public String  select(@RequestBody String aesData){
+        String ReportsData  = reportRecordsService.select();
+        return ReportsData;
     }
 
 }

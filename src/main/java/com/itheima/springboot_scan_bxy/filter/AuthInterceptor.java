@@ -16,12 +16,22 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setContentType("text/html;charset=utf-8");
+        String authorization = request.getHeader("Authorization");
+     /*   response.setHeader("Access-Control-Allow-Origin","*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, PATCH, DELETE, PUT");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");*/
         System.out.println(">>>AuthInterceptor>>>>>>>在请求处理之前进行调用（Controller方法调用之前)");
 
 
-        String token = request.getHeader("token");
+        if(authorization != null){
 
-        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNTk0NiJ9.Ir8CQy1U4n8p4gEOfBSQNNVaFQzplHGWWM5xOWaOZa4";
+        }else{
+            return false;
+        }
+
+
         /*关于 AES加密内容*/
         PrintWriter out = null;
         return true;

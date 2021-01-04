@@ -1,15 +1,15 @@
 package com.itheima.springboot_scan_bxy.mapper;
 
 
-import com.itheima.springboot_scan_bxy.entity.FileList;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Repository
-public interface FileListMapper {
+public interface ReportRecordsMapper {
     @Select("")
-    List<FileList> select();
+    List<Map> select();
 }

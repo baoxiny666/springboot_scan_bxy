@@ -5,6 +5,7 @@
 
 	<select id="loginCheck" parameterType="com.itheima.springboot_scan_bxy.entity.User"  resultType="java.util.Map">
    		select
+   			   abmuser.id,
    			   abmuser.user_name,
    			   abmuser.user_pwd,
    			   abmuser.user_phone,
