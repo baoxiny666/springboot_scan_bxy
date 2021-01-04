@@ -10,6 +10,6 @@ import java.util.Map;
 
 @Repository
 public interface ReportRecordsMapper {
-    @Select("")
+    @Select("select * from scan_records")
     List<Map> select();
 }

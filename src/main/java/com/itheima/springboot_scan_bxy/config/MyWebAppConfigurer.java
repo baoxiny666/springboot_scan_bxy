@@ -39,7 +39,7 @@ public class MyWebAppConfigurer  extends WebMvcConfigurerAdapter {
     //配置拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getAuthInterceptor()).excludePathPatterns("/login");
+        registry.addInterceptor(getAuthInterceptor()).excludePathPatterns("/jwt/login");
     }
 
 }

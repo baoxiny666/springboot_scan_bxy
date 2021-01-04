@@ -70,22 +70,12 @@ public class JwtUtil {
         } catch (JWTVerificationException exception) {
             flag = 1;
 
-
         }finally {
             if(flag == 1){
                 return false;
             }else{
                 return true;
             }
-
-          /*  JSONObject res = new JSONObject();
-            res.put("isSuccess", false);
-            res.put("errorCode", "没有token,去登陆吧");
-            outprint = response.getWriter();
-            outprint.append(res.toString());
-            response.reset();
-            outprint.flush();
-            outprint.close();*/
         }
     }
 }
