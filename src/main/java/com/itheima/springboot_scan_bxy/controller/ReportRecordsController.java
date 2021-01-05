@@ -12,10 +12,19 @@ public class ReportRecordsController {
     @Autowired
     private ReportRecordsService reportRecordsService;
 
+    //查询部门分厂信息
+    @RequestMapping("/departfactory")
+    public String  submenu(){
+        String SubMenuData  = reportRecordsService.submenu();
+        return SubMenuData;
+    }
+
     @RequestMapping("/select")
     public String  select(){
         String ReportsData  = reportRecordsService.select();
         return ReportsData;
     }
+
+
 
 }

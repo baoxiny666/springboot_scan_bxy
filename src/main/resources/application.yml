@@ -1,6 +1,6 @@
 
 server :
-  port :  8199
+  port :  8799
   tomcat:
     uri-encoding: UTF-8
 
@@ -21,13 +21,13 @@ spring:
       jdbc-url: jdbc:mysql://10.1.0.213:3306/lhtg-app?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
       username: rw_lhtg
       password: rw_lhtg001!!
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
       type: com.alibaba.druid.pool.DruidDataSource
     slave:
       jdbc-url: jdbc:mysql://10.1.0.213:3307/lhtg-app?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
       username: r_lhtg
       password: r_lhtg007!!
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
       type: com.alibaba.druid.pool.DruidDataSource
 
 

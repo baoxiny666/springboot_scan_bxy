@@ -15,7 +15,7 @@
                DATE_FORMAT(abmuser.update_time,'%Y-%m-%d %H:%i:%s') update_time,
                DATE_FORMAT(abmuser.login_time,'%Y-%m-%d %H:%i:%s') login_time,
                abmuser.user_status
-   		from admin_back_manage_user abmuser
+   		from back_manage_user abmuser
    		where abmuser.user_name= #{userName}
    				and abmuser.user_pwd= #{passWord}
 
