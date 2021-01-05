@@ -1,6 +1,7 @@
 package com.itheima.springboot_scan_bxy.mapper;
 
 
+import com.itheima.springboot_scan_bxy.entity.StatusConfig;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,10 @@ public interface ReportRecordsMapper {
             "group by area.depart_id " +
             "order by area.depart_id asc ")
     List<HashMap> submenuDepart();
+
+
+    @Select("select * from back_status_config")
+    List<StatusConfig> status();
 }
 
 

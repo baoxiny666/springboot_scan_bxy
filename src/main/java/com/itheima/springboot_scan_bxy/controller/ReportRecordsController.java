@@ -18,6 +18,12 @@ public class ReportRecordsController {
         String SubMenuData  = reportRecordsService.submenu();
         return SubMenuData;
     }
+    //查询状态
+    @RequestMapping("/status")
+    public String  status(){
+        String StatusData  = reportRecordsService.status();
+        return StatusData;
+    }
 
     @RequestMapping("/select")
     public String  select(){

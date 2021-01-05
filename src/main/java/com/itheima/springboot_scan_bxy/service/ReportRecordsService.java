@@ -5,4 +5,6 @@ public interface ReportRecordsService {
     String select();
 
     String submenu();
+
+    String status();
 }

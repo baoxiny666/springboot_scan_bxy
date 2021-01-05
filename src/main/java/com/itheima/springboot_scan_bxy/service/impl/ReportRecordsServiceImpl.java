@@ -1,7 +1,9 @@
 package com.itheima.springboot_scan_bxy.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.itheima.springboot_scan_bxy.entity.StatusConfig;
 import com.itheima.springboot_scan_bxy.mapper.ReportRecordsMapper;
 import com.itheima.springboot_scan_bxy.service.ReportRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,13 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
                         submenuArray.add(submenuSubObject);
                 }
                 return submenuArray.toJSONString();
+        }
+
+        @Override
+        public String status() {
+                List<StatusConfig> statusListMap= reportRecordsMapper.status();
+                String statusData = JSON.toJSONString(statusListMap);
+                return statusData;
         }
 
         public static String transferTime(Object lastModify){
