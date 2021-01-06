@@ -21,9 +21,9 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
         ReportRecordsMapper reportRecordsMapper;
 
         @Override
-        public String select() {
+        public String select(String aesDate) {
                 JSONArray jsonArray = new JSONArray();
-                //查询条件
+
 
                 return jsonArray.toJSONString();
         }

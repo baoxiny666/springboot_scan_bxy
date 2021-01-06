@@ -14,8 +14,8 @@ public class FileListController {
 
 
     @RequestMapping("/select")
-    public String select(){
-       String list =  fileListService.select();
+    public String select(String aesData){
+       String list =  fileListService.select(aesData);
        return list;
     }
 }

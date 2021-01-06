@@ -13,7 +13,7 @@ public class ReportRecordsController {
     private ReportRecordsService reportRecordsService;
 
     //查询部门分厂信息
-    @RequestMapping("/departfactory")
+    @RequestMapping("/departarea")
     public String  submenu(){
         String SubMenuData  = reportRecordsService.submenu();
         return SubMenuData;
@@ -26,10 +26,12 @@ public class ReportRecordsController {
     }
 
     @RequestMapping("/select")
-    public String  select(){
-        String ReportsData  = reportRecordsService.select();
+    public String  select(String aesData){
+        String ReportsData  = reportRecordsService.select(aesData);
         return ReportsData;
     }
+
+
 
 
 

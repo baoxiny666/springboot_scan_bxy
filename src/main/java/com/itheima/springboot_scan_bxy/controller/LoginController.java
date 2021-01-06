@@ -52,7 +52,7 @@ public class LoginController {
                 String token= JwtUtil.sign(totalSecret);
                 redisTemplate.opsForValue().set(totalSecret,token);
                 //设置token有效的时间
-                redisTemplate.expire(totalSecret, 300, TimeUnit.SECONDS);
+                redisTemplate.expire(totalSecret, 3000, TimeUnit.SECONDS);
 
                 JSONObject obj = new JSONObject();
                 JSONObject obj_inner = new JSONObject();
