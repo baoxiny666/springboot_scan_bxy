@@ -25,8 +25,8 @@
 			sr.record_location,
 			sr.record_location_name,
 			sr.app_client_id,
-			DATE_FORMAT(sr.create_time,'%Y-%m-%d') create_time,
-			DATE_FORMAT(sr.update_time,'%Y-%m-%d') update_time
+			DATE_FORMAT(sr.create_time,'%Y-%m-%d  %H:%i:%s') create_time,
+			DATE_FORMAT(sr.update_time,'%Y-%m-%d  %H:%i:%s') update_time
 		from scan_records sr,(select @i:=0)t,back_status_config bsc
 		where 1=1 and (sr.record_status = bsc.flag)
 		<if test="area_no != null and area_no !=''">

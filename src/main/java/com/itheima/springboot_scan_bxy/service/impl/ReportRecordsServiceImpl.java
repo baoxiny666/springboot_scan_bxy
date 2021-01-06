@@ -45,6 +45,12 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
                 List<HashMap> submenuDepartListMap= reportRecordsMapper.submenuDepart();
                 JSONArray submenuArray = new JSONArray();
                 List list = new ArrayList();
+                int flag = 0;
+                JSONObject wholeObj = new JSONObject();
+                wholeObj.put("value","-1");
+                wholeObj.put("label","全部");
+
+                submenuArray.add(wholeObj);
                 for (HashMap submenuDepartMap:submenuDepartListMap) {
                         JSONObject submenuSubObject = new JSONObject();
                         submenuSubObject.put("value",submenuDepartMap.get("depart_id").toString());

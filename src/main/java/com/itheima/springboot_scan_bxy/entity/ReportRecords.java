@@ -2,8 +2,6 @@ package com.itheima.springboot_scan_bxy.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class ReportRecords {
     private Integer id;
@@ -24,8 +22,8 @@ public class ReportRecords {
     private String record_location;
     private String record_location_name;
     private String app_client_id;
-    private Date create_time;
-    private Date update_time;
+    private String create_time;
+    private String update_time;
 
     //开始时间 与 结束时间
     private String start_time;
@@ -34,7 +32,8 @@ public class ReportRecords {
     private String search;
     //当前状态
     private String status;
-
+    //序号
+    private Integer xh;
 
 
 }
