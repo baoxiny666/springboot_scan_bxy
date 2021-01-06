@@ -43,7 +43,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                     out.append(res.toJSONString());
                     return false;
                 } else {
-                    redisTemplate.expire(userId, 30, TimeUnit.SECONDS);
+                    redisTemplate.expire(userId, 30000000, TimeUnit.SECONDS);
                 }
             } else {
                 JSONObject res = new JSONObject();

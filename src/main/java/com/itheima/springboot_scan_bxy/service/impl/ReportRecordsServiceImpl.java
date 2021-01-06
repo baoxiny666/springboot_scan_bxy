@@ -3,9 +3,11 @@ package com.itheima.springboot_scan_bxy.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.itheima.springboot_scan_bxy.entity.ReportRecords;
 import com.itheima.springboot_scan_bxy.entity.StatusConfig;
 import com.itheima.springboot_scan_bxy.mapper.ReportRecordsMapper;
 import com.itheima.springboot_scan_bxy.service.ReportRecordsService;
+import com.itheima.springboot_scan_bxy.utils.AesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,20 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
 
         @Override
         public String select(String aesDate) {
-                JSONArray jsonArray = new JSONArray();
 
+                String aesDeData = AesUtil.decrypt(aesDate,AesUtil.KEY);
+                JSONObject aesDeDateObj=JSONObject.parseObject(aesDeData);
+                ReportRecords reportRecords = JSON.toJavaObject(aesDeDateObj,ReportRecords.class);
 
-                return jsonArray.toJSONString();
+                List<ReportRecords> list = reportRecordsMapper.select(reportRecords);
+                JSONObject obj = new JSONObject();
+                if(list != null) {
+                        JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
+                        System.out.println(jsonArray);
+                        obj.put("code",200);
+                        obj.put("data",jsonArray);
+                }
+                return obj.toJSONString();
         }
 
         @Override

@@ -38,4 +38,5 @@ mybatis:
   type-aliases-package: com.itheima.springboot_scan_bxy.mapper
   configLocation:
     classpath: mybatis-config.xml
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 

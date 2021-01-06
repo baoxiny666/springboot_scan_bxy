@@ -1,6 +1,7 @@
 package com.itheima.springboot_scan_bxy.mapper;
 
 
+import com.itheima.springboot_scan_bxy.entity.ReportRecords;
 import com.itheima.springboot_scan_bxy.entity.StatusConfig;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -12,8 +13,7 @@ import java.util.List;
 
 @Repository
 public interface ReportRecordsMapper {
-    @Select("select * from scan_records")
-    List<HashMap> select();
+    List<ReportRecords> select(ReportRecords reportRecords);
 
     @Select("select area_no,area_name,depart_id " +
             "from scan_area area where  depart_id = #{depart_id}")
