@@ -23,9 +23,9 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
         ReportRecordsMapper reportRecordsMapper;
 
         @Override
-        public String select(String aesDate) {
+        public String select(String aesData) {
 
-                String aesDeData = AesUtil.decrypt(aesDate,AesUtil.KEY);
+                String aesDeData = AesUtil.decrypt(aesData,AesUtil.KEY);
                 JSONObject aesDeDateObj=JSONObject.parseObject(aesDeData);
                 ReportRecords reportRecords = JSON.toJavaObject(aesDeDateObj,ReportRecords.class);
 
@@ -38,6 +38,17 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
                         obj.put("data",jsonArray);
                 }
                 return obj.toJSONString();
+        }
+
+        @Override
+        public List<HashMap> selectExport(String aesData) {
+                String aesDeData = AesUtil.decrypt(aesData,AesUtil.KEY);
+                JSONObject aesDeDateObj=JSONObject.parseObject(aesDeData);
+                ReportRecords reportRecords = JSON.toJavaObject(aesDeDateObj,ReportRecords.class);
+
+                List<HashMap> list = reportRecordsMapper.selectExport(reportRecords);
+
+                return list;
         }
 
         @Override
