@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReportRecordsService {
     String select(String aesData);
-
+    String  selectDetail(String aesData);
     List<HashMap> selectExport(String aesData);
 
     String submenu();

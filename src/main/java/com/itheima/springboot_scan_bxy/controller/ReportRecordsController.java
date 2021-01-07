@@ -45,6 +45,12 @@ public class ReportRecordsController {
         return ReportsData;
     }
 
+    @RequestMapping("/selectDetail")
+    public String  selectDetail(String aesData){
+        String ReportsDetailData  = reportRecordsService.selectDetail(aesData);
+        return ReportsDetailData;
+    }
+
     //导出excell
     @RequestMapping("/export")
     public void  export(String aesData, HttpServletResponse response) throws IOException {
@@ -114,10 +120,6 @@ public class ReportRecordsController {
         workbook.write(output);
         //养成好习惯，出门记得随手关门
         output.close();
-
-
-
-
     }
 
 

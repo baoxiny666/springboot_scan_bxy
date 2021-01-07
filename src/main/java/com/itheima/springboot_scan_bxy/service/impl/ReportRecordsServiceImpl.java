@@ -41,6 +41,22 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
         }
 
         @Override
+        public String selectDetail(String aesData) {
+                String aesDeData = AesUtil.decrypt(aesData,AesUtil.KEY);
+                JSONObject aesDeDateObj=JSONObject.parseObject(aesDeData);
+                ReportRecords reportRecords = JSON.toJavaObject(aesDeDateObj,ReportRecords.class);
+                List<ReportRecords> list = reportRecordsMapper.selectDetail(reportRecords);
+                JSONObject obj = new JSONObject();
+                if(list != null) {
+                        JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
+                        System.out.println(jsonArray);
+                        obj.put("code",200);
+                        obj.put("data",jsonArray);
+                }
+                return obj.toJSONString();
+        }
+
+        @Override
         public List<HashMap> selectExport(String aesData) {
                 String aesDeData = AesUtil.decrypt(aesData,AesUtil.KEY);
                 JSONObject aesDeDateObj=JSONObject.parseObject(aesDeData);

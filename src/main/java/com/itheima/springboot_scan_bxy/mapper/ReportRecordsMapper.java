@@ -15,6 +15,8 @@ import java.util.List;
 public interface ReportRecordsMapper {
     List<ReportRecords> select(ReportRecords reportRecords);
     List<HashMap> selectExport(ReportRecords reportRecords);
+    List<ReportRecords> selectDetail(ReportRecords reportRecords);
+
 
     @Select("select area_no,area_name,depart_id " +
             "from scan_area area where  depart_id = #{depart_id}")

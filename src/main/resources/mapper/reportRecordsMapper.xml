@@ -74,7 +74,7 @@
 
 
 	<select id="selectExport" parameterType="com.itheima.springboot_scan_bxy.entity.ReportRecords"  resultType="java.util.HashMap">
-		select (@i:=@i+1) xh,* from (
+		select (@i:=@i+1) xh,rqm.* from (
 			select
 				sr.area_no,
 				sr.area_name,
@@ -84,6 +84,7 @@
 				sr.manage_phone,
 				sr.item_ids,
 				sr.desc,
+				sr.images,
 				bsc.name status,
 				sr.record_user_no,
 				sr.record_user_name,
@@ -132,6 +133,31 @@
 			order by STR_TO_DATE(create_time,'%Y-%m-%d %H:%i:%s') desc
 		) rqm,(select @i:=0) t
 		order by xh asc
+	</select>
+
+	<select id="selectDetail" parameterType="com.itheima.springboot_scan_bxy.entity.ReportRecords"  resultType="com.itheima.springboot_scan_bxy.entity.ReportRecords">
+			select
+				sr.id,
+				sr.area_no,
+				sr.area_name,
+				sr.depart_name,
+				sr.manage_user,
+				sr.manage_user_name,
+				sr.manage_phone,
+				sr.item_ids,
+				sr.desc,
+				sr.images,
+				bsc.name status,
+				sr.record_user_no,
+				sr.record_user_name,
+				sr.record_user_phone,
+				sr.record_location,
+				sr.record_location_name,
+				DATE_FORMAT(sr.create_time,'%Y-%m-%d  %H:%i:%s') create_time,
+				DATE_FORMAT(sr.update_time,'%Y-%m-%d  %H:%i:%s') update_time
+				from scan_records sr,back_status_config bsc
+			where 1=1 and (sr.record_status = bsc.flag)
+			and sr.id = #{id}
 	</select>
 
 </mapper>
