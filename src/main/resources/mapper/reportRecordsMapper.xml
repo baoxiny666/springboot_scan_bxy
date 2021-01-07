@@ -4,128 +4,134 @@
 <mapper namespace="com.itheima.springboot_scan_bxy.mapper.ReportRecordsMapper">
 
 	<select id="select" parameterType="com.itheima.springboot_scan_bxy.entity.ReportRecords"  resultType="com.itheima.springboot_scan_bxy.entity.ReportRecords">
-		select
-			(@i:=@i+1) xh,
-			sr.id,
-			sr.area_no,
-		    sr.area_name,
-			sr.depart_id,
-			sr.depart_name,
-			sr.manage_user,
-			sr.manage_user_name,
-			sr.manage_phone,
-			sr.item_ids,
-			sr.desc,
-			sr.images,
-			bsc.name status,
-			sr.record_status,
-			sr.record_user_no,
-			sr.record_user_name,
-			sr.record_user_phone,
-			sr.record_location,
-			sr.record_location_name,
-			sr.app_client_id,
-			DATE_FORMAT(sr.create_time,'%Y-%m-%d  %H:%i:%s') create_time,
-			DATE_FORMAT(sr.update_time,'%Y-%m-%d  %H:%i:%s') update_time
-		from scan_records sr,(select @i:=0)t,back_status_config bsc
-		where 1=1 and (sr.record_status = bsc.flag)
-		<if test="area_no != null and area_no !=''">
-			and area_no = #{area_no}
-		</if>
-		<if test="depart_id != null and depart_id !='' ">
-			and depart_id = #{depart_id}
-		</if>
-		<if test="status != null and status !='' ">
-			and record_status = #{status}
-		</if>
+		select (@i:=@i+1) xh,rqm.* from (
+			select
+				sr.id,
+				sr.area_no,
+				sr.area_name,
+				sr.depart_id,
+				sr.depart_name,
+				sr.manage_user,
+				sr.manage_user_name,
+				sr.manage_phone,
+				sr.item_ids,
+				sr.desc,
+				sr.images,
+				bsc.name status,
+				sr.record_status,
+				sr.record_user_no,
+				sr.record_user_name,
+				sr.record_user_phone,
+				sr.record_location,
+				sr.record_location_name,
+				sr.app_client_id,
+				DATE_FORMAT(sr.create_time,'%Y-%m-%d  %H:%i:%s') create_time,
+				DATE_FORMAT(sr.update_time,'%Y-%m-%d  %H:%i:%s') update_time
+			from scan_records sr,back_status_config bsc
+			where 1=1 and (sr.record_status = bsc.flag)
+			<if test="area_no != null and area_no !=''">
+				and area_no = #{area_no}
+			</if>
+			<if test="depart_id != null and depart_id !='' ">
+				and depart_id = #{depart_id}
+			</if>
+			<if test="status != null and status !='' ">
+				and record_status = #{status}
+			</if>
 
-		<if test="search != null and search !='' ">
-			and (	area_name like concat('%',#{search},'%')
-					or
-					depart_name like concat('%',#{search},'%')
-					or
-					manage_user like concat('%',#{search},'%')
-					or
-					manage_user_name like concat('%',#{search},'%')
-					or
-					manage_user_name like concat('%',#{search},'%')
-					or
-					manage_phone like concat('%',#{search},'%')
-					or
-					record_user_name like concat('%',#{search},'%')
-					or
-					record_location_name like concat('%',#{search},'%')
-			)
-		</if>
+			<if test="search != null and search !='' ">
+				and (	area_name like concat('%',#{search},'%')
+						or
+						depart_name like concat('%',#{search},'%')
+						or
+						manage_user like concat('%',#{search},'%')
+						or
+						manage_user_name like concat('%',#{search},'%')
+						or
+						manage_user_name like concat('%',#{search},'%')
+						or
+						manage_phone like concat('%',#{search},'%')
+						or
+						record_user_name like concat('%',#{search},'%')
+						or
+						record_location_name like concat('%',#{search},'%')
+				)
+			</if>
 
-		<if test="start_time != null and start_time !='' ">
-			and  create_time &gt;= #{start_time}
-		</if>
-		<if test="end_time != null and end_time !='' ">
-			and  create_time &lt;=  #{end_time}
-		</if>
-		order by STR_TO_DATE(create_time,'%Y-%m-%d %H:%i:%s') desc
+			<if test="start_time != null and start_time !='' ">
+				and  create_time &gt;= #{start_time}
+			</if>
+			<if test="end_time != null and end_time !='' ">
+				and  create_time &lt;=  #{end_time}
+			</if>
+			order by STR_TO_DATE(create_time,'%Y-%m-%d %H:%i:%s') desc
+		) rqm,(select @i:=0) t
+		order by xh asc
+
+
 
  	</select>
 
 
 	<select id="selectExport" parameterType="com.itheima.springboot_scan_bxy.entity.ReportRecords"  resultType="java.util.HashMap">
-		select
-		(@i:=@i+1) xh,
-		sr.area_no,
-		sr.area_name,
-		sr.depart_name,
-		sr.manage_user,
-		sr.manage_user_name,
-		sr.manage_phone,
-		sr.item_ids,
-		sr.desc,
-		bsc.name status,
-		sr.record_user_no,
-		sr.record_user_name,
-		sr.record_user_phone,
-		sr.record_location,
-		sr.record_location_name,
-		DATE_FORMAT(sr.create_time,'%Y-%m-%d  %H:%i:%s') create_time,
-		DATE_FORMAT(sr.update_time,'%Y-%m-%d  %H:%i:%s') update_time
-		from scan_records sr,(select @i:=0)t,back_status_config bsc
-		where 1=1 and (sr.record_status = bsc.flag)
-		<if test="area_no != null and area_no !=''">
-			and area_no = #{area_no}
-		</if>
-		<if test="depart_id != null and depart_id !='' ">
-			and depart_id = #{depart_id}
-		</if>
-		<if test="status != null and status !='' ">
-			and record_status = #{status}
-		</if>
+		select (@i:=@i+1) xh,* from (
+			select
+				sr.area_no,
+				sr.area_name,
+				sr.depart_name,
+				sr.manage_user,
+				sr.manage_user_name,
+				sr.manage_phone,
+				sr.item_ids,
+				sr.desc,
+				bsc.name status,
+				sr.record_user_no,
+				sr.record_user_name,
+				sr.record_user_phone,
+				sr.record_location,
+				sr.record_location_name,
+				DATE_FORMAT(sr.create_time,'%Y-%m-%d  %H:%i:%s') create_time,
+				DATE_FORMAT(sr.update_time,'%Y-%m-%d  %H:%i:%s') update_time
+				from scan_records sr,back_status_config bsc
+			where 1=1 and (sr.record_status = bsc.flag)
+			<if test="area_no != null and area_no !=''">
+				and area_no = #{area_no}
+			</if>
+			<if test="depart_id != null and depart_id !='' ">
+				and depart_id = #{depart_id}
+			</if>
+			<if test="status != null and status !='' ">
+				and record_status = #{status}
+			</if>
 
-		<if test="search != null and search !='' ">
-			and (	area_name like concat('%',#{search},'%')
-			or
-			depart_name like concat('%',#{search},'%')
-			or
-			manage_user like concat('%',#{search},'%')
-			or
-			manage_user_name like concat('%',#{search},'%')
-			or
-			manage_user_name like concat('%',#{search},'%')
-			or
-			manage_phone like concat('%',#{search},'%')
-			or
-			record_user_name like concat('%',#{search},'%')
-			or
-			record_location_name like concat('%',#{search},'%')
-			)
-		</if>
+			<if test="search != null and search !='' ">
+				and (	area_name like concat('%',#{search},'%')
+				or
+				depart_name like concat('%',#{search},'%')
+				or
+				manage_user like concat('%',#{search},'%')
+				or
+				manage_user_name like concat('%',#{search},'%')
+				or
+				manage_user_name like concat('%',#{search},'%')
+				or
+				manage_phone like concat('%',#{search},'%')
+				or
+				record_user_name like concat('%',#{search},'%')
+				or
+				record_location_name like concat('%',#{search},'%')
+				)
+			</if>
 
-		<if test="start_time != null and start_time !='' ">
-			and  create_time &gt;= #{start_time}
-		</if>
-		<if test="end_time != null and end_time !='' ">
-			and  create_time &lt;=  #{end_time}
-		</if>
-		order by STR_TO_DATE(create_time,'%Y-%m-%d %H:%i:%s') desc
+			<if test="start_time != null and start_time !='' ">
+				and  create_time &gt;= #{start_time}
+			</if>
+			<if test="end_time != null and end_time !='' ">
+				and  create_time &lt;=  #{end_time}
+			</if>
+			order by STR_TO_DATE(create_time,'%Y-%m-%d %H:%i:%s') desc
+		) rqm,(select @i:=0) t
+		order by xh asc
 	</select>
 
 </mapper>
