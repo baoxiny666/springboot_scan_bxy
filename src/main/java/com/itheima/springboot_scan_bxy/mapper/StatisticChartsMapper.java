@@ -1,6 +1,7 @@
 package com.itheima.springboot_scan_bxy.mapper;
 
 
+import com.itheima.springboot_scan_bxy.entity.ReportRecords;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,11 @@ public interface StatisticChartsMapper {
             " group by status,record_status,enname " +
             " order by record_status asc ")
     List<HashMap> selectDataCard();
+
+    @Select("select * from back_department order by id")
+    List<HashMap> selectDepartConfig();
+
+    HashMap selectDataCharts(ReportRecords reportRecords);
 }
 
 

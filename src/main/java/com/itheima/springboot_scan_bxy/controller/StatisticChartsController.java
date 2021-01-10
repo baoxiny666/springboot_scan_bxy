@@ -16,4 +16,9 @@ public class StatisticChartsController {
         String DataCards = statisticChartsService.selectDataCard();
         return DataCards;
     }
+    @RequestMapping("/selectDataCharts")
+    public String ReportRecordsController(String aesData){
+        String DataCards = statisticChartsService.selectDataCharts(aesData);
+        return DataCards;
+    }
 }
