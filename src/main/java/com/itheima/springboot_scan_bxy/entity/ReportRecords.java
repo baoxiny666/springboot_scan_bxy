@@ -34,6 +34,9 @@ public class ReportRecords {
     private String status;
     //序号
     private Integer xh;
-
+    //当前页
+    private int currentPage;
+    //每页的条数
+    private int pageSize;
 
 }

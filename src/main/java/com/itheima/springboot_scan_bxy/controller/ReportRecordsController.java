@@ -72,10 +72,8 @@ public class ReportRecordsController {
                 String column_en=fd.getName();
                 Excel d = fd.getAnnotation(Excel.class);
                 String column_zhcn = d.name();
-
                 excelHeader.add(column_zhcn);
                 excelHeaderEn.add(column_en);
-
             }
         }
         //定义POI类

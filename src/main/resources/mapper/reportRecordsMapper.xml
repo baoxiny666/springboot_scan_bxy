@@ -30,41 +30,43 @@
 			from scan_records sr,back_status_config bsc
 			where 1=1 and (sr.record_status = bsc.flag)
 			<if test="area_no != null and area_no !=''">
-				and area_no = #{area_no}
+				and sr.area_no = #{area_no}
 			</if>
 			<if test="depart_id != null and depart_id !='' ">
-				and depart_id = #{depart_id}
+				and sr.depart_id = #{depart_id}
 			</if>
 			<if test="status != null and status !='' ">
-				and record_status = #{status}
+				and sr.record_status = #{status}
 			</if>
 
 			<if test="search != null and search !='' ">
-				and (	area_name like concat('%',#{search},'%')
+				and (	sr.area_name like concat('%',#{search},'%')
 						or
-						depart_name like concat('%',#{search},'%')
+						sr.depart_name like concat('%',#{search},'%')
 						or
-						manage_user like concat('%',#{search},'%')
+						sr.manage_user like concat('%',#{search},'%')
 						or
-						manage_user_name like concat('%',#{search},'%')
+						sr.manage_user_name like concat('%',#{search},'%')
 						or
-						manage_user_name like concat('%',#{search},'%')
+						sr.manage_user_name like concat('%',#{search},'%')
 						or
-						manage_phone like concat('%',#{search},'%')
+						sr.manage_phone like concat('%',#{search},'%')
 						or
-						record_user_name like concat('%',#{search},'%')
+						sr.record_user_name like concat('%',#{search},'%')
 						or
-						record_location_name like concat('%',#{search},'%')
+						sr.record_location_name like concat('%',#{search},'%')
+						or
+						sr.desc like concat('%',#{search},'%')
 				)
 			</if>
 
 			<if test="start_time != null and start_time !='' ">
-				and  create_time &gt;= #{start_time}
+				and  STR_TO_DATE(sr.create_time,'%Y-%m-%d') &gt;= #{start_time}
 			</if>
 			<if test="end_time != null and end_time !='' ">
-				and  create_time &lt;=  #{end_time}
+				and  STR_TO_DATE(sr.create_time,'%Y-%m-%d') &lt;=  #{end_time}
 			</if>
-			order by STR_TO_DATE(create_time,'%Y-%m-%d %H:%i:%s') desc
+			order by STR_TO_DATE(sr.create_time,'%Y-%m-%d %H:%i:%s') desc
 		) rqm,(select @i:=0) t
 		order by xh asc
 
@@ -96,41 +98,43 @@
 				from scan_records sr,back_status_config bsc
 			where 1=1 and (sr.record_status = bsc.flag)
 			<if test="area_no != null and area_no !=''">
-				and area_no = #{area_no}
+				and sr.area_no = #{area_no}
 			</if>
 			<if test="depart_id != null and depart_id !='' ">
-				and depart_id = #{depart_id}
+				and sr.depart_id = #{depart_id}
 			</if>
 			<if test="status != null and status !='' ">
-				and record_status = #{status}
+				and sr.record_status = #{status}
 			</if>
 
 			<if test="search != null and search !='' ">
-				and (	area_name like concat('%',#{search},'%')
+				and (	sr.area_name like concat('%',#{search},'%')
 				or
-				depart_name like concat('%',#{search},'%')
+				sr.depart_name like concat('%',#{search},'%')
 				or
-				manage_user like concat('%',#{search},'%')
+				sr.manage_user like concat('%',#{search},'%')
 				or
-				manage_user_name like concat('%',#{search},'%')
+				sr.manage_user_name like concat('%',#{search},'%')
 				or
-				manage_user_name like concat('%',#{search},'%')
+				sr.manage_user_name like concat('%',#{search},'%')
 				or
-				manage_phone like concat('%',#{search},'%')
+				sr.manage_phone like concat('%',#{search},'%')
 				or
-				record_user_name like concat('%',#{search},'%')
+				sr.record_user_name like concat('%',#{search},'%')
 				or
-				record_location_name like concat('%',#{search},'%')
+				sr.record_location_name like concat('%',#{search},'%')
+				or
+				sr.desc like concat('%',#{search},'%')
 				)
 			</if>
 
 			<if test="start_time != null and start_time !='' ">
-				and  create_time &gt;= #{start_time}
+				and  STR_TO_DATE(sr.create_time,'%Y-%m-%d') &gt;= #{start_time}
 			</if>
 			<if test="end_time != null and end_time !='' ">
-				and  create_time &lt;=  #{end_time}
+				and  STR_TO_DATE(sr.create_time,'%Y-%m-%d') &lt;=  #{end_time}
 			</if>
-			order by STR_TO_DATE(create_time,'%Y-%m-%d %H:%i:%s') desc
+			order by STR_TO_DATE(sr.create_time,'%Y-%m-%d %H:%i:%s') desc
 		) rqm,(select @i:=0) t
 		order by xh asc
 	</select>

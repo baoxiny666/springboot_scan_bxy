@@ -3,11 +3,15 @@ package com.itheima.springboot_scan_bxy.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.itheima.springboot_scan_bxy.entity.PageResult;
 import com.itheima.springboot_scan_bxy.entity.ReportRecords;
 import com.itheima.springboot_scan_bxy.entity.StatusConfig;
 import com.itheima.springboot_scan_bxy.mapper.ReportRecordsMapper;
 import com.itheima.springboot_scan_bxy.service.ReportRecordsService;
 import com.itheima.springboot_scan_bxy.utils.AesUtil;
+import com.itheima.springboot_scan_bxy.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,16 +32,30 @@ public class ReportRecordsServiceImpl implements ReportRecordsService {
                 String aesDeData = AesUtil.decrypt(aesData,AesUtil.KEY);
                 JSONObject aesDeDateObj=JSONObject.parseObject(aesDeData);
                 ReportRecords reportRecords = JSON.toJavaObject(aesDeDateObj,ReportRecords.class);
-
-                List<ReportRecords> list = reportRecordsMapper.select(reportRecords);
+                PageResult pageResults = PageUtils.getPageResult(reportRecords, getPageInfo(reportRecords));
+               // List<ReportRecords> list = reportRecordsMapper.select(reportRecords);
                 JSONObject obj = new JSONObject();
-                if(list != null) {
-                        JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(list));
-                        System.out.println(jsonArray);
+               // if(list != null) {
+                        JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(pageResults));
+                        System.out.println(jsonObject);
                         obj.put("code",200);
-                        obj.put("data",jsonArray);
-                }
+                        obj.put("data",jsonObject);
+              //  }
                 return obj.toJSONString();
+        }
+
+        /*分页插件*/
+        /**
+         * 调用分页插件完成分页
+         * @param
+         * @return
+         */
+        private PageInfo<ReportRecords> getPageInfo(ReportRecords reportRecords) {
+                int pageNum = reportRecords.getCurrentPage();
+                int pageSize = reportRecords.getPageSize();
+                PageHelper.startPage(pageNum, pageSize);
+                List<ReportRecords> reportRecordsMenus = reportRecordsMapper.select(reportRecords);
+                return new PageInfo<ReportRecords>(reportRecordsMenus);
         }
 
         @Override
