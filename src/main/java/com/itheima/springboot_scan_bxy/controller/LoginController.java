@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/jwt")
+@RequestMapping("/api/jwt")
 public class LoginController {
     @Autowired
     private LoginService loginService;

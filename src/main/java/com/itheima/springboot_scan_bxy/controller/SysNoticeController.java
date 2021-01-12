@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/sysnotice")
+@RequestMapping("/api/sysnotice")
 public class SysNoticeController {
     @Autowired
     private SysNoticeService sysNoticeService;

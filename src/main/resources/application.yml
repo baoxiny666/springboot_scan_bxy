@@ -1,6 +1,6 @@
 
 server :
-  port :  8799
+  port :  8000
   tomcat:
     uri-encoding: UTF-8
 
@@ -29,7 +29,8 @@ spring:
       password: r_lhtg007!!
       driver-class-name: com.mysql.cj.jdbc.Driver
       type: com.alibaba.druid.pool.DruidDataSource
-
+  resources:
+      add-mappings: true
 
 
 #配置分页插件
@@ -47,4 +48,3 @@ mybatis:
   configLocation:
     classpath: mybatis-config.xml
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-

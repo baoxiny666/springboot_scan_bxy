@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/scanconfig")
+@RequestMapping("/api/scanconfig")
 public class ScanConfigController {
     @Autowired
     private ScanConfigService scanConfigService;

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/sysmoudles")
+@RequestMapping("/api/sysmoudles")
 public class SysModulesController {
     @Autowired
     private SysModulesService sysModulesService;

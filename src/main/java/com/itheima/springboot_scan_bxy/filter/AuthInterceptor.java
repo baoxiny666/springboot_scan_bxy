@@ -23,7 +23,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         System.out.println(">>>AuthInterceptor>>>>>>>在请求处理之前进行调用（Controller方法调用之前)");
 
         PrintWriter out = null;
-        if(authorization == null){
+        if(authorization == null || "null".equals(authorization)){
             // 执行认证
                 JSONObject res = new JSONObject();
                 res.put("code", 407);

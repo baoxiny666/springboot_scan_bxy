@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/sysad")
+@RequestMapping("/api/sysad")
 public class SysAdController {
     @Autowired
     private SysAdService sysAdService;

@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/report")
+@RequestMapping("/api/report")
 public class ReportRecordsController {
     @Autowired
     private ReportRecordsService reportRecordsService;
