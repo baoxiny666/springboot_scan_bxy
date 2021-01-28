@@ -1,8 +1,11 @@
 package com.itheima.springboot_scan_bxy.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.itheima.springboot_scan_bxy.entity.TreeMenu;
 import com.itheima.springboot_scan_bxy.entity.User;
+import com.itheima.springboot_scan_bxy.service.AdviseService;
 import com.itheima.springboot_scan_bxy.service.LoginService;
 import com.itheima.springboot_scan_bxy.utils.AesUtil;
 import com.itheima.springboot_scan_bxy.utils.JwtUtil;
@@ -12,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +24,9 @@ import java.util.concurrent.TimeUnit;
 public class LoginController {
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private AdviseService adviseService;
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
@@ -53,10 +60,15 @@ public class LoginController {
                 redisTemplate.opsForValue().set(totalSecret,token);
                 //设置token有效的时间
                 redisTemplate.expire(totalSecret, 300000, TimeUnit.SECONDS);
+                //求当前登录用户拥有的菜单结构
+                List<TreeMenu> treeMenus = adviseService.treeMenu(userId);
+                JSONArray tmJsonArray = new JSONArray();
 
                 JSONObject obj = new JSONObject();
                 JSONObject obj_inner = new JSONObject();
                 obj_inner.put("token",token);
+                obj_inner.put("obj","flag");
+                obj_inner.put("treeMenu", tmJsonArray.toJSONString(treeMenus));
                 obj.put("code",200);
                 obj.put("content",obj_inner);
                 obj.put("isSuccess",true);
